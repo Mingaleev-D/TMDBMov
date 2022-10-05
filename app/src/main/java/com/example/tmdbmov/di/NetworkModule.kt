@@ -1,6 +1,7 @@
 package com.example.tmdbmov.di
 
 import com.example.tmdbmov.network.ApiInterface
+import com.example.tmdbmov.network.NetworkResponseAdapterFactory
 import com.example.tmdbmov.utils.AppConstants.API_KEY
 import com.example.tmdbmov.utils.AppConstants.BASE_URL
 import dagger.Module
@@ -58,6 +59,7 @@ class NetworkModule {
       .baseUrl(BASE_URL)
       .client(logginClient)
       .addConverterFactory(GsonConverterFactory.create())
+      .addCallAdapterFactory(NetworkResponseAdapterFactory())
       .build()
   }
 
