@@ -1,29 +1,38 @@
 package com.example.tmdbmov.ui.fragments.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.tmdbmov.network.ApiInterface
+import com.example.tmdbmov.network.NetworkResponse
 import com.example.tmdbmov.network.model.dto.trendingrepo.TrendingResponse
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
- val apiInterface: ApiInterface
+  val apiInterface: ApiInterface
 ) : ViewModel() {
 
-  fun getTrending(){
-    apiInterface.getTrending("ru-RU",1).enqueue(object :Callback<TrendingResponse>{
-      override fun onResponse(call: Call<TrendingResponse>, response: Response<TrendingResponse>) {
-        if(response.isSuccessful){
-
+  fun getTrending() {
+    viewModelScope.launch {
+      when (apiInterface.getTrending("ru-RU", 1)) {
+        is NetworkResponse.Success -> {
+          Log.d("TAG", "getTrending: Success")
+        }
+        is NetworkResponse.ApiError -> {
+          Log.d("TAG", "getTrending: ApiError")
+        }
+        is NetworkResponse.NetworkError -> {
+          Log.d("TAG", "getTrending: NetworkError")
+        }
+        is NetworkResponse.UnknownError -> {
+          Log.d("TAG", "getTrending: UnknownError")
         }
       }
+    }
 
-      override fun onFailure(call: Call<TrendingResponse>, t: Throwable) {
-        //TODO logd faille.toString()
-      }
-
-    })
   }
 }
