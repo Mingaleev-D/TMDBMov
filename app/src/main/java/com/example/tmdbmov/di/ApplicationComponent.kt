@@ -11,7 +11,13 @@ import javax.inject.Singleton
  * @data : 4/10/2022
  */
 @Singleton
-@Component(modules = [MainModule::class, NetworkModule::class, ViewModelBuilderModule::class, SubComponentsModule::class])
+@Component(modules = [
+  MainModule::class,
+  NetworkModule::class,
+  ViewModelBuilderModule::class,
+  DataModule::class,
+  DispatcherModule::class,
+  SubComponentsModule::class])
 interface ApplicationComponent {
   @Component.Factory
   interface Factory {
